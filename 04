@@ -1,0 +1,125 @@
+Diário da Professora (C++)
+
+1. Descrição do Problema
+A professora de matemática aplicou 5 provas, cada uma valendo até 20 pontos, totalizando 100 pontos possíveis por aluno.
+É necessário criar um programa que receba o número de alunos, os nomes e as notas das provas de cada um, calcule a soma total das notas e indique o status final de cada aluno:
+Nota total ≥ 60: passou de ano
+Nota total < 40: reprovado
+Entre 40 e 59: recuperação
+
+2. Explicação do Funcionamento
+1- O programa pede o número de alunos (máximo 50).
+2- Lê os nomes dos alunos (com espaços).
+3- Para cada aluno, lê as 5 notas (valores inteiros).
+4- Calcula a soma das 5 notas.
+5- Define o status de acordo com a soma.
+6- Exibe uma tabela com nome, notas, total e resultado.
+
+3. Suposições
+No máximo 50 alunos.
+As notas são valores inteiros entre 0 e 20.
+O nome dos alunos pode conter espaços.
+A entrada segue o formato solicitado.
+
+4. Código Fonte (C++)
+#include <iostream>
+#include <string>
+#include <vector>
+#include <iomanip> // para setw e alinhamento
+
+using namespace std;
+
+struct Aluno {
+    string nome;
+    vector<int> notas;
+    int total;
+    string status;
+};
+
+int main() {
+    int n;
+    cout << "Quantos alunos tem a turma? ";
+    cin >> n;
+    cin.ignore(); // limpar o buffer após ler n
+
+    if (n < 1 || n > 50) {
+        cout << "Número de alunos inválido." << endl;
+        return 1;
+    }
+
+    vector<Aluno> turma(n);
+
+    cout << "Escreva os nomes dos alunos (1 por linha)" << endl;
+    for (int i = 0; i < n; i++) {
+        getline(cin, turma[i].nome);
+        turma[i].notas.resize(5);
+    }
+
+    for (int i = 0; i < n; i++) {
+        cout << "Escreva as notas do aluno " << turma[i].nome << ": ";
+        for (int j = 0; j < 5; j++) {
+            cin >> turma[i].notas[j];
+            if (turma[i].notas[j] < 0 || turma[i].notas[j] > 20) {
+                cout << "Nota inválida. Deve ser entre 0 e 20." << endl;
+                return 1;
+            }
+        }
+        cin.ignore(); // limpar buffer para próxima leitura de nome (se houver)
+        turma[i].total = 0;
+        for (int nota : turma[i].notas) {
+            turma[i].total += nota;
+        }
+
+        if (turma[i].total >= 60) {
+            turma[i].status = "Passou";
+        } else if (turma[i].total < 40) {
+            turma[i].status = "Reprovado";
+        } else {
+            turma[i].status = "Recuperacao";
+        }
+    }
+
+    cout << "\n----- Diario da turma -----\n";
+    cout << left << setw(15) << "Aluno" << "Notas                  " << setw(6) << "Total" << "Situacao\n";
+    cout << "--------------------------------------------------------\n";
+
+    for (int i = 0; i < n; i++) {
+        cout << left << setw(15) << turma[i].nome;
+        for (int nota : turma[i].notas) {
+            cout << setw(4) << nota;
+        }
+        cout << setw(6) << turma[i].total << turma[i].status << endl;
+    }
+
+    return 0;
+}
+
+5. Exemplo de Execução
+Quantos alunos tem a turma? 3
+Escreva os nomes dos alunos (1 por linha)
+Alexandre
+Bernardo
+Carlos
+Escreva as notas do aluno Alexandre: 20 17 10 18 20
+Escreva as notas do aluno Bernardo: 10 17 12 13 8
+Escreva as notas do aluno Carlos: 15 15 15 15 15
+
+----- Diario da turma -----
+Aluno           Notas                  Total Situacao
+--------------------------------------------------------
+Alexandre       20  17  10  18  20  85    Passou
+Bernardo        10  17  12  13  8   60    Passou
+Carlos          15  15  15  15  15  75    Passou
+
+6. Dificuldades Encontradas e Soluções
+Leitura de nomes com espaços: Usei getline para capturar nomes completos.
+Alinhamento da saída: Usei iomanip com setw e left para facilitar a visualização da tabela.
+Validação das notas: Acrescentei verificação para garantir que notas estejam entre 0 e 20.
+Limpeza do buffer: Usei cin.ignore() para evitar problemas ao alternar entre cin e getline.
+
+7. O Que Foi Aprendido
+Leitura de strings com espaços usando getline.
+Como trabalhar com vetores e estruturas para organizar dados.
+Impressão formatada com alinhamento.
+Estruturação de um programa que manipula listas de alunos e notas.
+Validação básica de entrada.
