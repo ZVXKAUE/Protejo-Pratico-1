@@ -25,9 +25,6 @@ O número de lançamentos será fornecido corretamente como um número inteiro p
 O programa será executado em um ambiente compatível com C++ (como GCC, MSVC ou Code::Blocks).
 
 4. Código Fonte (C++)
-cpp
-Copiar
-Editar
 #include <iostream>
 #include <cstdlib>
 #include <ctime>
@@ -73,9 +70,6 @@ int main() {
 
 5. Exemplos de Execução (simulados)
 Simulação com 100 lançamentos:
-makefile
-Copiar
-Editar
 Lançamentos: 100
 Duplo seis ocorreu: 3 vezes
 Probabilidade observada: 0.030000
@@ -83,9 +77,6 @@ Probabilidade teórica:  0.027778
 Diferença:              0.002222
 
 Simulação com 1.000.000 lançamentos:
-makefile
-Copiar
-Editar
 Lançamentos: 1000000
 Duplo seis ocorreu: 27758 vezes
 Probabilidade observada: 0.027758
