@@ -1,0 +1,158 @@
+Jogo de Adivinhação em C++
+
+1. Descrição do Problema
+Este trabalho consiste em desenvolver um programa em C++ para simular um jogo de adivinhação. 
+O computador escolhe aleatoriamente um número entre 1 e 100, e o jogador deve tentar adivinhar. 
+A cada tentativa, o programa informa se o número correto é maior ou menor do que o palpite dado, até que o jogador acerte.
+O programa conta o número de tentativas e fornece mensagens diferentes conforme o desempenho.
+Como ponto extra, também foi implementada a versão inversa, onde o usuário escolhe um número e o computador tenta adivinhar com base nas pistas fornecidas.
+
+2. Explicação do Funcionamento
+Modo 1 – Jogador adivinha
+1- O computador escolhe aleatoriamente um número entre 1 e 100.
+2- O jogador tenta adivinhar.
+3- O computador responde se o número é maior ou menor que o palpite.
+4- Quando o jogador acerta, o computador informa o número de tentativas:
+Se acertar na primeira: "Seu sortudo!"
+Caso contrário: mostra a quantidade de tentativas.
+
+Modo 2 – Computador adivinha
+O usuário pensa em um número entre 1 e 100.
+O computador faz um palpite.
+O usuário responde:
+m se o número é maior
+n se é menor
+s se o palpite está certo
+O processo continua até o computador acertar.
+Mostra o número de tentativas utilizadas.
+
+3. Suposições
+Os números estão sempre entre 1 e 100.
+O usuário digita corretamente as respostas (s, m, n) no modo reverso.
+A aleatoriedade é inicializada corretamente com srand(time(0)).
+
+4. Código Fonte (C++)
+cpp
+Copiar
+Editar
+#include <iostream>
+#include <cstdlib>
+#include <ctime>
+using namespace std;
+
+void modoJogadorAdivinha() {
+    srand(time(0));
+    char jogarNovamente;
+
+    do {
+        int numero = rand() % 100 + 1;
+        int palpite, tentativas = 0;
+
+        cout << "Pensei em um número entre 1 e 100. Adivinhe qual é!" << endl;
+
+        do {
+            cin >> palpite;
+            tentativas++;
+
+            if (palpite > numero) {
+                cout << "Não, o número que pensei é menor. Tente outro: ";
+            } else if (palpite < numero) {
+                cout << "Não, o número que pensei é maior. Tente outro: ";
+            } else {
+                if (tentativas == 1)
+                    cout << "Isso! Seu sortudo, acertou de primeira!" << endl;
+                else
+                    cout << "Isso! Você acertou com " << tentativas << " tentativas!" << endl;
+            }
+
+        } while (palpite != numero);
+
+        cout << "Quer jogar de novo (s/n)? ";
+        cin >> jogarNovamente;
+
+    } while (jogarNovamente == 's' || jogarNovamente == 'S');
+
+    cout << "Ok, nos vemos mais tarde quando quiser jogar de novo." << endl;
+}
+
+void modoComputadorAdivinha() {
+    int menor = 1, maior = 100, tentativas = 0;
+    char resposta;
+    int palpite;
+
+    cout << "\nPense em um número entre 1 e 100 e eu vou tentar adivinhar!" << endl;
+    cout << "Responda com:\n  'm' para maior\n  'n' para menor\n  's' para certo" << endl;
+
+    do {
+        palpite = (menor + maior) / 2;
+        tentativas++;
+
+        cout << "É " << palpite << "? ";
+        cin >> resposta;
+
+        if (resposta == 'm') {
+            menor = palpite + 1;
+        } else if (resposta == 'n') {
+            maior = palpite - 1;
+        }
+
+    } while (resposta != 's');
+
+    cout << "Acertei! Usei " << tentativas << " tentativas." << endl;
+}
+
+int main() {
+    int escolha;
+
+    cout << "Bem-vindo ao jogo de adivinhação!\n";
+    cout << "Escolha o modo:\n1 - Eu adivinho\n2 - Computador adivinha\nEscolha: ";
+    cin >> escolha;
+
+    if (escolha == 1) {
+        modoJogadorAdivinha();
+    } else if (escolha == 2) {
+        modoComputadorAdivinha();
+    } else {
+        cout << "Opção inválida." << endl;
+    }
+
+    return 0;
+}
+
+5. Exemplos de Execução
+
+Modo 1 – Jogador adivinha
+yaml
+Copiar
+Editar
+Pensei em um número entre 1 e 100. Adivinhe qual é!
+50
+Não, o número que pensei é menor. Tente outro:
+25
+Não, o número que pensei é maior. Tente outro:
+35
+Isso! Você acertou com 3 tentativas!
+Quer jogar de novo (s/n)? n
+Ok, nos vemos mais tarde quando quiser jogar de novo.
+
+Modo 2 – Computador adivinha
+css
+Copiar
+Editar
+Pense em um número entre 1 e 100...
+É 50? m
+É 75? n
+É 62? m
+É 68? s
+Acertei! Usei 4 tentativas.
+
+6. Dificuldades Encontradas e Soluções
+Gerar boas pistas para o modo reverso: Inicialmente, o computador chutava números aleatórios, o que era ineficiente. A solução foi usar uma busca binária (palpite = (menor + maior) / 2).
+Entrada inválida do usuário: Para simplificação, assumimos que o usuário responde corretamente (m, n, s). Uma melhoria futura seria validar entradas.
+Repetição do jogo: Criar laços com do-while tornou o jogo mais fluido e intuitivo.
+
+7. O Que Foi Aprendido
+Manipulação de números aleatórios com rand() e srand().
+Controle de fluxo com estruturas de repetição (do-while, if).
+Logica de busca binária para adivinhação eficiente.
+Desenvolvimento de jogos simples interativos no terminal.
