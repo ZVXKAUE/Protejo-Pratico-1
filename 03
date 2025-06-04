@@ -1,0 +1,79 @@
+Eleição de Representante e Vice-Representante de Turma (C++)
+
+1. Descrição do Problema
+Em uma eleição para representante de turma, cada aluno vota em um colega (que pode ser ele mesmo) para representá-los. 
+O representante será o aluno que receber mais votos. O vice-representante será o aluno com o segundo maior número de votos.
+O programa deve receber o número total de alunos e os votos de cada um, contabilizar os votos e mostrar o resultado da eleição.
+
+2. Explicação do Funcionamento
+1- O programa lê o número total de alunos, N.
+2- Lê N votos, onde cada voto é um número representando o aluno escolhido.
+3- Conta a quantidade de votos recebidos por cada aluno.
+4- Identifica o aluno com maior número de votos (representante).
+5- Identifica o aluno com segundo maior número de votos (vice-representante).
+6- Exibe os resultados conforme o exemplo.
+
+3. Suposições
+Os alunos são numerados de 1 a N.
+Cada voto está entre 1 e N.
+Não há empate explícito tratado (considera-se que existe um único representante e vice).
+Entrada é fornecida corretamente, com N votos.
+
+4. Código Fonte (C++)
+#include <iostream>
+#include <vector>
+using namespace std;
+
+int main() {
+    int N;
+    cout << "Digite o numero de alunos: ";
+    cin >> N
+
+    vector<int> votos(N);
+    cout << "Digite os " << N << " votos dos alunos: ";
+    for (int i[
+        cin >> votos[i]
+    }
+
+    vector<int> contagem(N + 1, 0);
+
+    for (int v : votos) {
+        if (v >= 1 && v <= N) {
+            contagem[v]++;
+        }
+    }
+
+    int representante = 1, vice = 1;
+    for (int i = 2; i <= N; i++) {
+        if (contagem[i] > contagem[representante]) {
+            vice = representante;
+            representante = i;
+        } else if (contagem[i] > contagem[vice] && i != representante) {
+            vice = i;
+        }
+    }
+
+    cout << "Representante da turma sera o aluno " << representante
+         << ", que obteve " << contagem[representante] << " votos." << endl;
+    cout << "Vice-representante sera o aluno " << vice
+         << ", que obteve " << contagem[vice] << " votos." << endl;
+
+    return 0;
+}
+
+5. Exemplo de Execução
+Digite o numero de alunos: 15
+Digite os 15 votos dos alunos: 3 7 8 10 10 2 3 10 14 7 3 1 3 6 14
+Representante da turma sera o aluno 3, que obteve 4 votos.
+Vice-representante sera o aluno 10, que obteve 3 votos.
+
+6. Dificuldades Encontradas e Soluções
+Encontrar o segundo maior voto: Foi necessário cuidar para atualizar o vice-representante corretamente ao encontrar um novo representante.
+Votos inválidos: Assumiu-se que os votos são sempre válidos, não foi implementada verificação para votos fora do intervalo 1 a N.
+Empates: Este problema não considera empates para simplificar, mas poderia ser melhorado para tratá-los.
+
+7. O Que Foi Aprendido
+Uso de vetores para contagem frequente.
+Como identificar os maiores e segundos maiores valores em uma lista.
+Manipulação de dados fornecidos via entrada padrão.
+Implementação prática de uma eleição simples.
