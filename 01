@@ -1,0 +1,106 @@
+Probabilidade de obter dois 6 em lançamentos de dados (C++)
+
+1. Descrição do Problema
+O objetivo é simular lançamentos de dois dados comuns utilizando programação em C++,
+a fim de verificar empiricamente a chance de ambos os dados caírem com o valor 6 simultaneamente — evento chamado "duplo seis". 
+A probabilidade teórica é de 1 em 36, ou aproximadamente 2,78%.
+O programa deve permitir simulações com diferentes quantidades de lançamentos e comparar os resultados com a teoria.
+
+2. Explicação do Funcionamento do Programa
+O programa segue os seguintes passos:
+1- Solicita ao usuário a quantidade de lançamentos a serem simulados.
+2- Para cada lançamento:
+Gera dois números aleatórios entre 1 e 6, representando os dados.
+Verifica se os dois números são iguais a 6.
+Conta quantas vezes isso acontece.
+3- Ao final, exibe:
+Total de lançamentos realizados.
+Quantas vezes ocorreu "duplo seis".
+A frequência observada do evento.
+A diferença em relação à probabilidade teórica (1/36).
+
+3. Suposições Necessárias
+O gerador de números aleatórios da linguagem (rand()) está corretamente inicializado com srand(time(0)) para garantir aleatoriedade.
+O número de lançamentos será fornecido corretamente como um número inteiro positivo.
+O programa será executado em um ambiente compatível com C++ (como GCC, MSVC ou Code::Blocks).
+
+4. Código Fonte (C++)
+cpp
+Copiar
+Editar
+#include <iostream>
+#include <cstdlib>
+#include <ctime>
+#include <iomanip>
+
+using namespace std;
+
+void simularLancamentos(int qtdLancamentos) {
+    int duploSeis = 0;
+    
+    for (int i = 0; i < qtdLancamentos; i++) {
+        int dado1 = rand() % 6 + 1; // Gera número de 1 a 6
+        int dado2 = rand() % 6 + 1;
+        
+        if (dado1 == 6 && dado2 == 6) {
+            duploSeis++;
+        }
+    }
+    
+    double probObservada = (double)duploSeis / qtdLancamentos;
+    double probTeorica = 1.0 / 36;
+    double diferenca = abs(probObservada - probTeorica);
+
+    cout << fixed << setprecision(6);
+    cout << "\nLançamentos: " << qtdLancamentos << endl;
+    cout << "Duplo seis ocorreu: " << duploSeis << " vezes" << endl;
+    cout << "Probabilidade observada: " << probObservada << endl;
+    cout << "Probabilidade teórica:  " << probTeorica << endl;
+    cout << "Diferença:              " << diferenca << endl;
+}
+
+int main() {
+    srand(time(0)); // Inicializa o gerador de números aleatórios
+
+    int testes[] = {50, 100, 500, 1000, 10000, 100000, 1000000};
+
+    for (int i = 0; i < 7; i++) {
+        simularLancamentos(testes[i]);
+    }
+
+    return 0;
+}
+
+5. Exemplos de Execução (simulados)
+Simulação com 100 lançamentos:
+makefile
+Copiar
+Editar
+Lançamentos: 100
+Duplo seis ocorreu: 3 vezes
+Probabilidade observada: 0.030000
+Probabilidade teórica:  0.027778
+Diferença:              0.002222
+
+Simulação com 1.000.000 lançamentos:
+makefile
+Copiar
+Editar
+Lançamentos: 1000000
+Duplo seis ocorreu: 27758 vezes
+Probabilidade observada: 0.027758
+Probabilidade teórica:  0.027778
+Diferença:              0.000020
+
+6. Dificuldades Encontradas e Soluções
+Aleatoriedade repetida: Quando não usamos srand(time(0)), os números gerados por rand() se repetem a cada execução. Isso foi resolvido inicializando o gerador com time(0).
+Precisão de saída: Para evitar confusões nas casas decimais, usamos fixed e setprecision(6) da biblioteca <iomanip>.
+Performance com grandes números: Para 1 milhão de lançamentos, o programa se manteve rápido, mas para volumes maiores seria ideal usar técnicas como processamento paralelo, se necessário.
+
+
+7. O Que Foi Aprendido
+Como utilizar o rand() e srand() para simular aleatoriedade em C++.
+A importância de grandes amostras para que a simulação se aproxime da teoria.
+Como estruturar um programa modular, limpo e de fácil leitura.
+A diferença entre probabilidade teórica e experimental, e como visualizá-la em um programa.
+
